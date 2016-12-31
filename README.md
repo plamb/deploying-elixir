@@ -22,7 +22,7 @@ If you're coming from a language like Ruby or Node there's a few differences in 
 2. that compile is going to output an Erlang deployable, and
 3. the build environment (OS and version) must **match** the deployment environment (OS and version). 
 
-I'm also not going to cover setting up Distillery, there's a lot of good documentation there already.
+I don't cover installing Docker or setting up Distillery, there's a lot of good documentation there already.
 
 [**Note:** Item #3 is probably going to cause some of you some heartburn because it's not absolutely 100% true. Treat it like is and your life will be much easier. The errors that happen because of mismatches can be rather obtuse and return very few Google hits. Keep things simple, match the build and deploy environments, once that's mastered if there's a requirement outside that scope evaluate it then.]
 
@@ -36,7 +36,7 @@ Part 3: Bottling the Release with Docker
 
 ## But what about...
 
-There's a few other alternatives for this process. Probably the biggest being Heroku and edeliver. Links to more info on both are below. Because Heroku tends to be absolutely dead simple to setup, I won't spend much time on it.
+There's more than a few alternatives for this process. Probably the biggest being Heroku and edeliver. Links to more info on both are below. Because Heroku tends to be absolutely dead simple to setup, I won't spend much time on it.
 
 (Heroku Links)
 (Edeliver Links)
