@@ -10,7 +10,7 @@ I do tend to be a bit opinionated but I'm constantly looking for better ideas, s
 
 Here's the overview of the process:
 
-- Build our app using [Distillery(https://github.com/bitwalker/distillery)] to create our release
+- Build our app using [Distillery](https://github.com/bitwalker/distillery) to create our release
 - The build is going to happen inside a Docker container
 - Deploy to a Docker container or VPS/Bare Metal Host
 
@@ -22,11 +22,11 @@ If you're coming from a language like Ruby or Node there's a few differences in 
 2. that compile/build is going to output an Erlang deployable, and
 3. the build environment (OS and version) must **match** the deployment/production environment (OS and version). 
 
-I don't cover installing [Docker](https://docs.docker.com/engine/installation/) or setting up [Distillery(https://github.com/bitwalker/distillery)], there's a lot of good documentation there already.
+I don't cover installing [Docker](https://docs.docker.com/engine/installation/) or setting up [Distillery](https://github.com/bitwalker/distillery), there's a lot of good documentation there already.
 
 [**Note:** Item #3 is probably going to cause some of you some heartburn because it's not absolutely 100% true. While there are some exceptions, treat it's completely true and your life will be much easier. The errors that happen because of mismatches can be rather obtuse and return very few Google hits. Keep things simple, match the build and deploy environments, once that's mastered if there's a requirement outside that scope evaluate it then.]
 
-There's many different ways to build and deploy an Elixir app, **many**. In fact, there's a whole page of (other resources)[./docs/resources.md] with information on some of those ways. My biases are going to come out, so let me state a few right up front:
+There's many different ways to build and deploy an Elixir app, **many**. In fact, there's a whole page of [other resources](./docs/resources.md) with information on some of those ways. My biases are going to come out, so let me state a few right up front:
 
 - While I've taken an incremental approach here, the goal is to completely automate it all with a CI process,
 - To get to a CI process you need to seperate you dev environment from your build/test/production environments
