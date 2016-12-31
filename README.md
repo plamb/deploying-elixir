@@ -4,15 +4,15 @@ I had some thoughts about deploying Elixir and decided to start putting them tog
 
 I do tend to be a bit opinionated but I'm constantly looking for better ideas, so if there's something that you don't like or think could be better, please open an issue and create a pull request.
 
-**Disclaimer:** this isn't intended to be a set of guides where you can copy/paste a complete deployment solution. It's a set of guides and ideas that you can implement as you need.
+**Disclaimer:** this isn't intended to be a set of guides where you copy/paste a complete deployment solution. It's a set of guides and ideas that you can implement as needed.
 
 ### Overview
 
 Here's the overview of the process:
 
--Build our app using Distillery to create our release
--The build is going to happen inside a Docker container
--Deploy to a Docker container or VPS/Bare Metal Host
+- Build our app using Distillery to create our release
+- The build is going to happen inside a Docker container
+- Deploy to a Docker container or VPS/Bare Metal Host
 
 ### Things you need to know
 
@@ -28,9 +28,10 @@ I'm also not going to cover setting up Distillery, there's a lot of good documen
 
 ## Build
 [Part 1: Distilling with Docker](./docs/distill_with_docker.md)
+
 Part 2: Dockerfiles
 
-# Run
+## Run
 Part 3: Bottling the Release with Docker
 
 ## But what about...
