@@ -1,0 +1,51 @@
+# Start with the "official" Elixir build (this simplifies quite a bit here).
+# This uses the "official" Erlang build (right now at 19.1.5 and includes rebar 2 & 3) 
+# on top of Debian jessie.
+FROM elixir:1.3.4
+
+MAINTAINER Paul Lamb <paul@oil-law.com>
+
+ENV REFRESHED_AT 2016-11-02
+# 2016-11-03 Switch to "official" Elixir Dockerfile for base and node 6.7.0
+# 2016-11-02 updated to Erlang 19 and Elixir 1.3
+# 2015-12-20 update Erlang to 18.* so that it will pick up the latest one (18.2 isn't in repo yet)
+
+# Install hex
+RUN /usr/local/bin/mix local.hex --force && \
+    /usr/local/bin/mix hex.info
+
+# debian has old version of node, so we have to get a current one
+# there wasn't a 6.9.0 lts version when I checked on 2016-11-2
+# https://github.com/nodesource/docker-node/tree/master/debian/jessie/node/6.7.0
+RUN curl https://deb.nodesource.com/node_6.x/pool/main/n/nodejs/nodejs_6.7.0-1nodesource1~jessie1_amd64.deb > node.deb \
+ && apt-get update && apt-get install -y -qq --no-install-recommends rlwrap \
+ && dpkg -i node.deb \
+ && rm node.deb \
+ && npm cache clear || echo ""
+
+
+# This prevents us from installing devDependencies
+# This causes brunch to build minified and hashed assets
+ENV MIX_ENV=prod BRUNCH_ENV=production
+
+WORKDIR /home/app/webapp
+COPY . /home/app/webapp
+
+# since this is umbrella app we need the --all to get the dependencies for all apps
+# not just the umbrella app
+RUN mix deps.get --all && \
+   mix deps.compile --all && \
+   mix compile --all
+
+# go to our phoenix app and install node dependencies and output static assets
+# do this after mix deps.get since the phoenix & phoenix_html node modules reference
+# files in these dependencies
+WORKDIR /home/app/webapp/apps/search_web #
+RUN npm install \
+  && npm rebuild node-sass \
+  && node node_modules/brunch/bin/brunch build \ 
+  && mix phoenix.digest
+
+# build the app
+WORKDIR /home/app/webapp
+RUN mix release --env=prod
