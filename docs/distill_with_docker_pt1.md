@@ -16,6 +16,9 @@ There are a few reasons why you'd want to containerize your build step:
 
 Don't feel bad, I wrote this article because I hit all those problems. But once you've containerized the build you can rein in all those problems and the CI automation step becomes much easier. We're going to create a Dockerfile that builds a Distillery release of our app and saves it to disk, it's not complicated but there are a couple of things you need to know.
 
+## But First
+You need to have both [Docker](https://docs.docker.com/engine/installation/) installed and [Distillery](https://github.com/bitwalker/distillery) setup and working for your app.
+
 ## Sample App & Dockerfiles
 I've created a very simple plug application, named SamplePlugApp, that I'll use to demonstrate the build process. If you'd like to follow along the github repo is at: (https://github.com/plamb/elixir-deploy)[https://github.com/plamb/elixir-deploy]
 
@@ -117,8 +120,12 @@ There's going to be some question and I'll try and answer a few right up front.
 #### But...what about?
 Yes, there's a couple of other ways we could have done the Dockerfile and the commands. Particularly, why didn't we just use another volume and map our source directory right into the container? Mostly, because I really, really want a separation between our dev, build, test and prod environments. I did not want any local dev bits getting into our build.
 
-#### Why can't you do it all with the build command?
+#### Why can't you do it all with the docker build command?
 You can only mount volumes when running the `docker run` command. To get around this, we could have done a `RUN mix release` in the Dockerfile and then used a `docker cp` to copy the file out. But this means that the commands run on the container are hard coded into the container. Instead, we use a `CMD [bash]` to tell the container what to execute when a `docker run` is issued without any arguments, we then override that command with the final option `mix release --env=prod`. This gives us an easy way to specify options and commands to the container, i.e. `mix release.upgrade --env=prod`.
 
 #### But I want to git clone the source into the container.
 At some point, I might write that how-to, maybe. But I'd suggest you let that automagically happen with your CI system instead. In the meantime, you might take a look at [Building docker images with two Dockerfiles](http://blog.tomecek.net/post/build-docker-image-in-two-steps).
+
+
+#### What about a Phoenix app?
+Take a look at the highly untested [docker/Dockerfile.build.phoenix](./docker/Dockerfile.build.phoenix). There's a few more steps, including adding Nodejs for asset compilation.
