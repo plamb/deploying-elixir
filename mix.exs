@@ -19,8 +19,7 @@ defmodule SamplePlugApp.Mixfile do
     [
       {:cowboy, "~> 1.0"},
       {:plug, "~> 1.3"},
-      {:distillery, "~> 1.0"},
-      {:ex_doc, "~> 0.14.5"}
+      {:distillery, "~> 1.0"}
     ]
   end
 end

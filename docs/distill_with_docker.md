@@ -12,21 +12,21 @@ There are a few reasons why you'd want to containerize your build step:
 3. You had an Erlang dependency mismatch on deploy
 4. You want to automate your build with a CI process
 
-Don't feel bad, I wrote this article because I hit all those problems. But once you've containerized the build the CI automation step becomes much easier. We're going to create a Dockerfile that builds a Distillery release of our app and saves it to disk.
+Don't feel bad, I wrote this article because I hit all those problems. But once you've containerized the build you can rein in all those problems and the CI automation step becomes much easier. We're going to create a Dockerfile that builds a Distillery release of our app and saves it to disk, it's not complicated but there are a couple of things you need to know.
 
-In Part 2, covers creating a second Dockerfile for running the release. This is useful if you want to run (or test) your app in a Docker container and gives us clean separation between the build container and the deployment container. A nice bonus is that we get a very small deployment container.
+Part 2 covers taking our release and "bottling" it inside a second Dockerfile for running the release. This is useful if you want to run (or test) your app in a Docker container and gives us clean separation between the build container and the deployment container. A nice bonus is that we can get a very small deployment container.
 
 ## Sample App & Dockerfiles
-I've created a very simple plug application, named Tuscon, that I'll use to demonstrate the build process. If you'd like to follow along the github repo is at: (https://github.com/plamb/elixir-deploy)[https://github.com/plamb/elixir-deploy]
+I've created a very simple plug application, named SamplePlugApp, that I'll use to demonstrate the build process. If you'd like to follow along the github repo is at: (https://github.com/plamb/elixir-deploy)[https://github.com/plamb/elixir-deploy]
 
-## First
+## What's the target?
 
-I'm going to make the assumption that you are deploying to some form of Linux. But first, before you read anything else, we need specifics on your deployment environment:
+I'm going to make the assumption that you are deploying to some form of Linux. You need get specific on your deployment environment, as this will inform your decisions on the build environment.
 
 - OS Distribution (Debian, Ubuntu, CentOs, RHEL, Fedora, Alpine, Arch...)
 - OS Version (14.04, 16.04, Jessie, 7...)
 
-We need to make sure our OS architect, version and Erlang dependencies **MATCH** in both our build container and our deployment environment. I can't put enough emphasis on *match* in the previous sentence, all sorts of weird errors can happen when you get those out of sync.
+You need to make sure our OS architect, version and Erlang dependencies **MATCH** in both our build container and our deployment environment. I can't put enough emphasis on *match* in the previous sentence, all sorts of weird errors can happen when you get those out of sync.
 
 ## .dockerignore
 
@@ -69,50 +69,48 @@ By default, Distillery is going to save you releases to '_build/<$MIX_ENV>/rel/<
 You need to modify rel/config.exs. [If you don't have a rel/config.exs file, you haven't set up [Distillery](https://github.com/bitwalker/distillery) yet.] Add an output_dir to the release block [it's usually at the bottom] and change the app name to match yours.
 
 ```elixir
-release :myumbrella do
-  set version: current_version(:myumbrella)
-  set output_dir: './releases/myumbrella'
+release :sample_plug_app do
+  set version: current_version(:sample_plug_app)
+  set output_dir: './releases/sample_plug_app'
 end
 ```
-Note: the output_dir should be included in the .dockerignore file. If you change to a different directory make sure to also update the .dockerignore.
+Note: the output_dir should be included in the .dockerignore file. If you change to a different directory make sure to also update the .dockerignore. Also make sure you change the "sample_plug_app" to the name of your app.
 
 ## Dockerfile
 
-With our .dockerignore and updated Distillery config, there aren't any big changes to our Dockerfile and we when do a `docker run` we add a `-v ./releases` option so we mount the releases directory inside the docker container to save the release.
+With our .dockerignore and updated Distillery config, there aren't any big changes to our Dockerfile and we when do a `docker run` we add a `-v ./releases:/app/releases` option so we mount the releases directory inside the docker container to persist the release to our local directory instead of inside the docker container.
 
 Here's a sample Dockerfile, that uses the "official" Elixir layer which includes the "official" Erlang layer.
 
 ```dockerfile
+# Start with the "official" Elixir build (this simplifies quite a bit here).
+# This uses the "official" Erlang build (right now at 19.2) 
+# on top of Debian jessie.
 FROM elixir:1.3.4
 
 MAINTAINER Your Name <name@your-domain.com>
 
-ENV REFRESHED_AT 2016-12-30
+ENV REFRESHED_AT 2016-12-31
 
 # Install hex
 RUN /usr/local/bin/mix local.hex --force && \
     /usr/local/bin/mix hex.info
 
-# This prevents us from installing devDependencies
-# This causes brunch to build minified and hashed assets
-ENV MIX_ENV=prod BRUNCH_ENV=production
-
 WORKDIR /app
-# make sure you've added the .dockerignore file to the root of the app
 COPY . /app
 
-# since this is umbrella app we need the --all to get the dependencies for all apps
-# not just the umbrella app
-RUN mix deps.get && \
-   mix deps.compile && \
-   mix compile && \
-   mix release 
+RUN mix deps.get
+
+CMD ["bash"]
 ```
 
 If you've cloned the [sample app](https://github.com/elixir-deploy) you can issue the following command to build a release:
 
 ```
-docker build ...
+docker build --tag=build-elixir -f docker/Dockerfile.build.elixir .
+docker run -v $PWD/releases:/app/releases build-elixir mix release --env=prod
 ```
 
-Which will create a tuson.tar.gz file in the directory releases/tuscon/....
+What does this do? First we build a Docker image using the Dockerfile we created. The build utilizes the existing "official" Elixir layer, adds hex, copies our application into the container and gets the dependencies. We tag the container with a name of "build-release". The first time your run the build is going to take a while, subsequent builds will use Docker's caching mechanisms and will go much faster. In fact, subsequent builds should only execute the COPY and RUN to get code and dependencies.
+
+The second command, docker run, will execute the command 'mix release --env=prod' within the container we just created, which will compile and package our app. Our release tarball will be stored in releases/sample_plug_app/releases/0.1.0/sample_plug_app.tar.gz.
