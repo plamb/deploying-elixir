@@ -35,7 +35,7 @@ There are many different ways to build and deploy an Elixir app, **many**. In fa
 - Containers give us a direct way to match our build environment to our production one
 
 ## Build
-[Part 1: Distilling with Docker](./docs/distill_with_docker.md)
+[Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
 
 Part 2: Dockerfiles
 

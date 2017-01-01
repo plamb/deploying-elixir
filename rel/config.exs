@@ -32,6 +32,6 @@ end
 
 release :sample_plug_app do
   set version: current_version(:sample_plug_app)
-  set output_dir: './releases/sample_plug_app'
+  # set output_dir: './releases/sample_plug_app'
 end
 

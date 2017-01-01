@@ -1,5 +1,7 @@
 .dockerignore
 .git
+.log
+tmp
 
 # we don't need our docker directory
 docker
