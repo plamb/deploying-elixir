@@ -19,4 +19,4 @@ erl_crash.dump
 
 # Static artifacts
 node_modules
-web/static
+priv

@@ -55,7 +55,7 @@ erl_crash.dump
 
 # Static artifacts if you're using Phoenix if it's an umbrella app change the paths
 node_modules
-web/static
+priv
 
 # any other directories that have files that don't need to be included in the build
 # these are specific to the sample project
@@ -78,7 +78,7 @@ Note: the output_dir should be included in the .dockerignore file. If you change
 
 ## Dockerfile
 
-With our .dockerignore and updated Distillery config, we're finally to our Dockerfile. I create a docker directory and put them in there. The one below is [docker/Dockerfile.build.elixir](./docker/Dockerfile.build.elixir). It uses the "official" Elixir layer which includes the "official" Erlang layer which is based on Debian Jessie.
+With our .dockerignore and updated Distillery config, we're finally to our Dockerfile. I create a `docker` directory and put docker relates files in there. The one below is [docker/Dockerfile.build.elixir](./docker/Dockerfile.build.elixir). It uses the "official" Elixir layer which includes the "official" Erlang layer which is based on Debian Jessie.
 
 ```dockerfile
 FROM elixir:1.3.4
@@ -111,7 +111,9 @@ What does this do? First, we build a Docker image using the Dockerfile we create
 The second command, `docker run`, will execute the command `mix release --env=prod` within the container we just created, which will compile and package our app. Our release tarball will be stored in releases/sample_plug_app/releases/0.1.0/sample_plug_app.tar.gz.
 
 # Mix It Up
-Now that we've got a working build process we need to take another 3 minutes and add a mix task to automate it....
+Now that we've got a working build process we need to take another 3 minutes and add a mix task to automate running those two commands.
+
+[See also: []()]
 
 ## Q & A
 
@@ -126,6 +128,13 @@ You can only mount volumes when running the `docker run` command. To get around 
 #### But I want to git clone the source into the container.
 At some point, I might write that how-to, maybe. But I'd suggest you let that automagically happen with your CI system instead. In the meantime, you might take a look at [Building docker images with two Dockerfiles](http://blog.tomecek.net/post/build-docker-image-in-two-steps).
 
-
 #### What about a Phoenix app?
 Take a look at the highly untested [docker/Dockerfile.build.phoenix](./docker/Dockerfile.build.phoenix). There's a few more steps, including adding Nodejs for asset compilation.
+
+#### What about environment variables?
+Ugh...yeah...this can trip you up. An article just on this is "coming soon". I promise.
+
+## Acknowledgements
+While writing this I came across [Github - PagerDuty/docker_distiller]. There's lots of overlapping concepts between what I've done and their mix tasks. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated but I'm certainly interested where you could go with it. I particularly like the idea of doing a Dockerfile as an eex template.
+
+[Releasing Elixir/OTP applications to the World](https://kennyballou.com/blog/2016/05/elixir-otp-releases/) Does an excellent job explaining the problem in detail.
