@@ -1,5 +1,7 @@
 .dockerignore
-.git
+# there are valid reasons to keep the .git, namely so that you can get the 
+# current commit hash
+#.git
 .log
 tmp
 
@@ -11,7 +13,7 @@ _build
 deps
 *.ez
 
-# don't include any edeliver stuff
+# don't include our release builds
 releases
 
 # Generate on crash by the VM
