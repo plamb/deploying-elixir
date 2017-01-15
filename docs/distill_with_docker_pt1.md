@@ -1,8 +1,8 @@
 # Distilling with Docker Part 1: A Good Begining
 
 - Last updated: January 2017
-- Elixir 1.3.4
-- Distillery 1.0
+- Elixir 1.4.0
+- Distillery 1.1.0
 - Docker 1.12
 
 ## Why
@@ -138,3 +138,5 @@ Ugh...yeah...this can trip you up. An article just on this is "coming soon". I p
 While writing this I came across [Github - PagerDuty/docker_distiller]. There's lots of overlapping concepts between what I've done and their mix tasks. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated but I'm certainly interested where you could go with it. I particularly like the idea of doing a Dockerfile as an eex template.
 
 [Releasing Elixir/OTP applications to the World](https://kennyballou.com/blog/2016/05/elixir-otp-releases/) Does an excellent job explaining the problem in detail.
+[Lessons from Building a Node App in Docker](http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html)
+[Github - Bitwalker's Phoenix Dockerfile](https://github.com/bitwalker/alpine-elixir-phoenix)

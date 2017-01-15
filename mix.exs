@@ -4,7 +4,7 @@ defmodule SamplePlugApp.Mixfile do
   def project do
     [app: :sample_plug_app,
      version: "0.1.0",
-     elixir: "~> 1.3",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -19,7 +19,7 @@ defmodule SamplePlugApp.Mixfile do
     [
       {:cowboy, "~> 1.0"},
       {:plug, "~> 1.3"},
-      {:distillery, "~> 1.0"}
+      {:distillery, "~> 1.1.0"}
     ]
   end
 end
