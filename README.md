@@ -34,15 +34,23 @@ There are many different ways to build and deploy an Elixir app, **many**. In fa
 - This means a separation of dev from build and build from production
 - Containers give us a direct way to match our build environment to our production one
 
-## Build
-[Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
+## Distilling with Docker
+[Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
+[Part 2: Build it Faster](./docs/distill_with_docker_pt2.md)
+[Part 3: Comments and Q&A](./docs/distill_with_docker_pt3.md)
 
-Part 2: Dockerfiles
+
+## Bottling a Release
 
 ## Run
-Part 3: Bottling the Release with Docker
 
 ## But what about...
 
 See the page of [resources](./docs/resources.md)
 
+## Acknowledgements
+While writing this I came across [Github - PagerDuty/docker_distiller]. There's lots of overlapping concepts between what I've done and their mix tasks. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated but I'm certainly interested where you could go with it. I particularly like the idea of doing a Dockerfile as an eex template.
+
+[Releasing Elixir/OTP applications to the World](https://kennyballou.com/blog/2016/05/elixir-otp-releases/) Does an excellent job explaining the problem in detail.
+[Lessons from Building a Node App in Docker](http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html)
+[Github - Bitwalker's Phoenix Dockerfile](https://github.com/bitwalker/alpine-elixir-phoenix)

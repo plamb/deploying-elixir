@@ -26,7 +26,7 @@ I've created a very simple plug application, named SamplePlugApp, that I'll use 
 
 I'm going to make the assumption that you are deploying to some form of Linux and for this first part we're going to target Debian Jessie. In part 2 we'll cover other targets but we need to start with something easy and get it working first, then we can iterate from there. Debian Jessie just happens to be what the ["official" Erlang docker image](https://hub.docker.com/_/erlang/) and ["official" Elixir docker image](https://hub.docker.com/_/elixir/) is built on, so that's what we're going to use.
 
-Keep in mind that your docker build environment needs to **match** your deployment environment. Part 2 covers other targets.
+Keep in mind that your docker build environment needs to **match** your deployment environment.
 
 ## .dockerignore
 
@@ -110,33 +110,9 @@ What does this do? First, we build a Docker image using the Dockerfile we create
 
 The second command, `docker run`, will execute the command `mix release --env=prod` within the container we just created, which will compile and package our app. Our release tarball will be stored in releases/sample_plug_app/releases/0.1.0/sample_plug_app.tar.gz.
 
-# Mix It Up
-Now that we've got a working build process we need to take another 3 minutes and add a mix task to automate running those two commands.
+# See Also
+[Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
+[Distilling with Docker, Part 2: Build it Faster](./docs/distill_with_docker_pt2.md)
+[Distilling with Docker, Part 3: Comments and Q&A](./docs/distill_with_docker_pt3.md)
 
-[See also: []()]
 
-## Q & A
-
-There's going to be some question and I'll try and answer a few right up front.
-
-#### But...what about?
-Yes, there's a couple of other ways we could have done the Dockerfile and the commands. Particularly, why didn't we just use another volume and map our source directory right into the container? Mostly, because I really, really want a separation between our dev, build, test and prod environments. I did not want any local dev bits getting into our build.
-
-#### Why can't you do it all with the docker build command?
-You can only mount volumes when running the `docker run` command. To get around this, we could have done a `RUN mix release` in the Dockerfile and then used a `docker cp` to copy the file out. But this means that the commands run on the container are hard coded into the container. Instead, we use a `CMD [bash]` to tell the container what to execute when a `docker run` is issued without any arguments, we then override that command with the final option `mix release --env=prod`. This gives us an easy way to specify options and commands to the container, i.e. `mix release.upgrade --env=prod`.
-
-#### But I want to git clone the source into the container.
-At some point, I might write that how-to, maybe. But I'd suggest you let that automagically happen with your CI system instead. In the meantime, you might take a look at [Building docker images with two Dockerfiles](http://blog.tomecek.net/post/build-docker-image-in-two-steps).
-
-#### What about a Phoenix app?
-Take a look at the highly untested [docker/Dockerfile.build.phoenix](./docker/Dockerfile.build.phoenix). There's a few more steps, including adding Nodejs for asset compilation.
-
-#### What about environment variables?
-Ugh...yeah...this can trip you up. An article just on this is "coming soon". I promise.
-
-## Acknowledgements
-While writing this I came across [Github - PagerDuty/docker_distiller]. There's lots of overlapping concepts between what I've done and their mix tasks. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated but I'm certainly interested where you could go with it. I particularly like the idea of doing a Dockerfile as an eex template.
-
-[Releasing Elixir/OTP applications to the World](https://kennyballou.com/blog/2016/05/elixir-otp-releases/) Does an excellent job explaining the problem in detail.
-[Lessons from Building a Node App in Docker](http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html)
-[Github - Bitwalker's Phoenix Dockerfile](https://github.com/bitwalker/alpine-elixir-phoenix)

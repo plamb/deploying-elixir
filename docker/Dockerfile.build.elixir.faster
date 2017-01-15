@@ -14,9 +14,13 @@ RUN /usr/local/bin/mix local.hex --force && \
     /usr/local/bin/mix hex.info
 
 WORKDIR /app
-COPY . .
 
-RUN mix deps.get
+# Copy in only our mix files, the run will only happen if they've changed
+COPY mix.exs mix.lock ./
+RUN mix do deps.get, deps.compile
+
+# Now copy in the rest of the app
+COPY . .
 
 CMD ["bash"]
    
