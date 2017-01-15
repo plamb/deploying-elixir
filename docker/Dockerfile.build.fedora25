@@ -4,9 +4,10 @@ FROM fedora:25
 # Fedora 25 is going to give us Erlang 19 and Node 6.9
 # Elixir is at 1.3.1 and we want latest 1.3.4 so we will not install it from dnf
 
-MAINTAINER Paul Lamb <paul@oil-law.com>
+MAINTAINER Your Name <name@your-domain.com>
 
-ENV REFRESHED_AT 2016-12-14
+ENV REFRESHED_AT 2017-01-15
+# 2017-01-15 update to elixir 1.4.0
 # 2016-12-14 clean up comments and any remaining debainisms
 # 2016-11-30 Refactor for Fedora 25
 # 2016-11-02 updated to erlang 19 and elixir 1.3
@@ -31,7 +32,7 @@ RUN dnf -y update --setopt=deltarpm=false && \
 
 # Download and Install Specific Version of Elixir
 WORKDIR /elixir
-RUN wget -q https://github.com/elixir-lang/elixir/releases/download/v1.3.4/Precompiled.zip && \
+RUN wget -q https://github.com/elixir-lang/elixir/releases/download/v1.4.0/Precompiled.zip && \
     unzip Precompiled.zip && \
     rm -f Precompiled.zip && \
     ln -s /elixir/bin/elixirc /usr/local/bin/elixirc && \
