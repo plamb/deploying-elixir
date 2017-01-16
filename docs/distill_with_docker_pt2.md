@@ -37,6 +37,8 @@ CMD ["bash"]
 Since each docker step is dependent on the previous one, we use the inherent caching in Docker to only execute a step if something has change. Thus the `RUN mix do deps.get, deps.compile` only gets executed if the files in preceding COPY command have changed.
 
 # See Also
-[Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
-[Distilling with Docker, Part 2: Build it Faster](./docs/distill_with_docker_pt2.md)
-[Distilling with Docker, Part 3: Comments and Q&A](./docs/distill_with_docker_pt3.md)
+[Distilling with Docker, Part 1: A Good Begining](./distill_with_docker_pt1.md)
+
+[Distilling with Docker, Part 2: Build it Faster](./distill_with_docker_pt2.md)
+
+[Distilling with Docker, Part 3: Comments and Q&A](./distill_with_docker_pt3.md)

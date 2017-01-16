@@ -124,10 +124,10 @@ The second command, `docker run`, will execute the command `mix release --env=pr
 
 
 # See Also
-[Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
+[Distilling with Docker, Part 1: A Good Begining](./distill_with_docker_pt1.md)
 
-[Distilling with Docker, Part 2: Build it Faster](./docs/distill_with_docker_pt2.md)
+[Distilling with Docker, Part 2: Build it Faster](./distill_with_docker_pt2.md)
 
-[Distilling with Docker, Part 3: Comments and Q&A](./docs/distill_with_docker_pt3.md)
+[Distilling with Docker, Part 3: Comments and Q&A](./distill_with_docker_pt3.md)
 
 
