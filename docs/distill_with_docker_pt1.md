@@ -91,18 +91,20 @@ chmod 0777 releases
 With our .dockerignore and updated Distillery config, we're finally to our Dockerfile. I create a `docker` directory and put docker relates files in there. The one below is [docker/Dockerfile.build.elixir](./docker/Dockerfile.build.elixir). It uses the "official" Elixir layer which includes the "official" Erlang layer which is based on Debian Jessie.
 
 ```dockerfile
-FROM elixir:1.3.4
+FROM elixir:1.4.0
 
 MAINTAINER Your Name <name@your-domain.com>
 
-ENV REFRESHED_AT 2016-12-31
+ENV REFRESHED_AT 2017-01-15
+# 2017-01-15 update to elixir 1.4.0
 
 # Install hex
 RUN /usr/local/bin/mix local.hex --force && \
+    /usr/local/bin/mix local.rebar --force && \
     /usr/local/bin/mix hex.info
 
 WORKDIR /app
-COPY . /app
+COPY . .
 
 RUN mix deps.get
 
