@@ -76,6 +76,16 @@ end
 ```
 Note: the output_dir should be included in the .dockerignore file. If you change to a different directory make sure to also update the .dockerignore. Also, make sure you change the "sample_plug_app" to the name of your app.
 
+## Releases directory
+
+Create the releases directory and update the permissions so that the docker daemon can write to it. [Note: I haven't researched this in depth and went the easy way with permissions.]
+
+```bash
+mkdir releases
+chmod 0777 releases
+```
+
+
 ## Dockerfile
 
 With our .dockerignore and updated Distillery config, we're finally to our Dockerfile. I create a `docker` directory and put docker relates files in there. The one below is [docker/Dockerfile.build.elixir](./docker/Dockerfile.build.elixir). It uses the "official" Elixir layer which includes the "official" Erlang layer which is based on Debian Jessie.
@@ -110,9 +120,12 @@ What does this do? First, we build a Docker image using the Dockerfile we create
 
 The second command, `docker run`, will execute the command `mix release --env=prod` within the container we just created, which will compile and package our app. Our release tarball will be stored in releases/sample_plug_app/releases/0.1.0/sample_plug_app.tar.gz.
 
+
 # See Also
 [Distilling with Docker, Part 1: A Good Begining](./docs/distill_with_docker_pt1.md)
+
 [Distilling with Docker, Part 2: Build it Faster](./docs/distill_with_docker_pt2.md)
+
 [Distilling with Docker, Part 3: Comments and Q&A](./docs/distill_with_docker_pt3.md)
 
 
