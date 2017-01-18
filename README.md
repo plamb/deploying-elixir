@@ -49,7 +49,7 @@ There are many different ways to build and deploy an Elixir app, **many**. In fa
 See the page of [resources](./docs/resources.md)
 
 ## Acknowledgements
-While writing this I came across [Github - PagerDuty/docker_distiller]. There's lots of overlapping concepts between what I've done and their mix tasks. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated but I'm certainly interested where you could go with it. I particularly like the idea of doing a Dockerfile as an eex template.
+While writing this I came across [Elixir Docker Image Builder](https://github.com/edib-tool) and [Github - PagerDuty/docker_distiller](https://github.com/PagerDuty/docker_distiller). There's lots of overlapping concepts between what I've done and their build steps. Effectively, I've explained the process a bit and they've automated it. They are a bit opinionated and targeted at creating the smallest runtime docker image possible.
 
 [Releasing Elixir/OTP applications to the World](https://kennyballou.com/blog/2016/05/elixir-otp-releases/) Does an excellent job explaining the problem in detail.
 [Lessons from Building a Node App in Docker](http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html)
