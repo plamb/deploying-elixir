@@ -29,7 +29,7 @@ I don't cover installing [Docker](https://docs.docker.com/engine/installation/) 
 There are many different ways to build and deploy an Elixir app, **many**. In fact, there's a whole page of [other resources](./docs/resources.md) with information on some of those ways. My biases are going to come out, so let me state a few right up front:
 
 - While I've taken an incremental approach here, the goal is to completely automate the whole thing with a CI process,
-- To get to a CI process you need to separate you dev environment from your build/test/production environments
+- To get to a CI process you need to separate your dev environment from your build/test/production environments
 - Having spent a few years in the computer security world, I'm not a fan of installing build tools in production environments, so our process will be to install the build tools only in the build environment and deploy prebuilt binaries and assets to production
 - This means a separation of dev from build and build from production
 - Containers give us a direct way to match our build environment to our production one
